@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MVC", "src\MVC\MVC.xproj", "{74278453-4D13-4F0E-B6E5-9F7BF0764CCF}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "IdentityServer", "src\IdentityServer\IdentityServer.xproj", "{D4F19982-E9FC-4658-B1C6-DB6870B91E77}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "IdentityServer", "src\IdentityServer\IdentityServer.xproj", "{C38AFD2F-53F3-4CFF-A0C0-51086D081C24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,16 +24,16 @@ Global
 		{74278453-4D13-4F0E-B6E5-9F7BF0764CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74278453-4D13-4F0E-B6E5-9F7BF0764CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74278453-4D13-4F0E-B6E5-9F7BF0764CCF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4F19982-E9FC-4658-B1C6-DB6870B91E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4F19982-E9FC-4658-B1C6-DB6870B91E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4F19982-E9FC-4658-B1C6-DB6870B91E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4F19982-E9FC-4658-B1C6-DB6870B91E77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C38AFD2F-53F3-4CFF-A0C0-51086D081C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C38AFD2F-53F3-4CFF-A0C0-51086D081C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C38AFD2F-53F3-4CFF-A0C0-51086D081C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C38AFD2F-53F3-4CFF-A0C0-51086D081C24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{74278453-4D13-4F0E-B6E5-9F7BF0764CCF} = {98A6119A-ABA3-40C1-965F-4F59E1977E93}
-		{D4F19982-E9FC-4658-B1C6-DB6870B91E77} = {98A6119A-ABA3-40C1-965F-4F59E1977E93}
+		{C38AFD2F-53F3-4CFF-A0C0-51086D081C24} = {98A6119A-ABA3-40C1-965F-4F59E1977E93}
 	EndGlobalSection
 EndGlobal
