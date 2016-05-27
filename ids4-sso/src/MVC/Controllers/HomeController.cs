@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MVC.Controllers
@@ -13,23 +15,30 @@ namespace MVC.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> Login()
         {
-            ViewData["Message"] = "Your application description page.";
-
+            ViewBag.IdentityToken = await HttpContext.Authentication.GetIdentityTokenAsync();
+            ViewBag.AccessToken = await HttpContext.Authentication.GetAccessTokenAsync();
             return View();
         }
+    }
 
-        public IActionResult Contact()
+    internal static class AuthenticateContextExtensions
+    {
+        public static async Task<string> GetIdentityTokenAsync(this AuthenticationManager manager)
         {
-            ViewData["Message"] = "Your contact page.";
+            var context = new AuthenticateContext("Cookies");
+            await manager.AuthenticateAsync(context);
 
-            return View();
+            return context.Properties[".Token.id_token"];
         }
 
-        public IActionResult Error()
+        public static async Task<string> GetAccessTokenAsync(this AuthenticationManager manager)
         {
-            return View();
+            var context = new AuthenticateContext("Cookies");
+            await manager.AuthenticateAsync(context);
+
+            return context.Properties[".Token.access_token"];
         }
     }
 }

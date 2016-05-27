@@ -62,6 +62,8 @@ namespace MVC
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -84,14 +86,36 @@ namespace MVC
 
             app.UseIdentity();
 
-            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // Auth config
+            var oidcOptions = new OpenIdConnectOptions
+            {
+                AuthenticationScheme = "oidc",
+                SignInScheme = "Cookies",
+
+                Authority = "http://localhost:5000",
+                RequireHttpsMetadata = false,
+                PostLogoutRedirectUri = "http://localhost:3308/",
+                ClientId = "mvc",
+                ClientSecret = "secret",
+                ResponseType = "code id_token",
+                GetClaimsFromUserInfoEndpoint = true,
+                SaveTokens = true,
+            };
+
+            oidcOptions.Scope.Clear();
+
+            oidcOptions.Scope.Add("openid");
+            oidcOptions.Scope.Add("profile");
+            oidcOptions.Scope.Add("api1");
+
+            app.UseOpenIdConnectAuthentication(oidcOptions);
         }
     }
 }
