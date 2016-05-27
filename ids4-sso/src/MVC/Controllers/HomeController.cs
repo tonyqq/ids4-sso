@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,8 @@ namespace MVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Login()
+        [Authorize]
+        public async Task<IActionResult> Secure()
         {
             ViewBag.IdentityToken = await HttpContext.Authentication.GetIdentityTokenAsync();
             ViewBag.AccessToken = await HttpContext.Authentication.GetAccessTokenAsync();
