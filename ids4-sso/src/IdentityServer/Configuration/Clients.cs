@@ -17,12 +17,12 @@ namespace IdentityServer.Configuration
 
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:3308/signin-oidc"
+                        "http://localhost:28750/signin-oidc"
                     },
 
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:3308/"
+                        "http://localhost:28750/"
                     },
 
                     ClientSecrets = new List<Secret>

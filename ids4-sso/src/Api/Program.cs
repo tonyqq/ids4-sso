@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace IdentityServer
+namespace Api
 {
     public class Program
     {

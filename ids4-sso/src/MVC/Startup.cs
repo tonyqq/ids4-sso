@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MVC.Data;
-using MVC.Models;
-using MVC.Services;
 
 namespace MVC
 {
@@ -38,49 +34,26 @@ namespace MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
             services.AddMvc();
-
-            // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseApplicationInsightsRequestTelemetry();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
-            app.UseApplicationInsightsExceptionTelemetry();
-
+            app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
 
-            app.UseIdentity();
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Cookies",
+                AutomaticAuthenticate = true
+            });
+
 
             // Auth config
             var oidcOptions = new OpenIdConnectOptions
@@ -88,9 +61,9 @@ namespace MVC
                 AuthenticationScheme = "oidc",
                 SignInScheme = "Cookies",
 
-                Authority = "http://localhost:5000",
+                Authority = "http://localhost:30000",
                 RequireHttpsMetadata = false,
-                PostLogoutRedirectUri = "http://localhost:3308/",
+                PostLogoutRedirectUri = "http://localhost:28750/",
                 ClientId = "mvc",
                 ClientSecret = "secret",
                 ResponseType = "code id_token",
