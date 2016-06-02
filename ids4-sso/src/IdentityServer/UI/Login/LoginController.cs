@@ -6,6 +6,7 @@ using IdentityModel;
 using IdentityServer4.Core;
 using IdentityServer4.Core.Services;
 using IdentityServer4.Core.Services.InMemory;
+using IdentityServer4.Core.Validation;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,13 +16,17 @@ namespace IdentityServer.UI.Login
     {
         private readonly LoginService _loginService;
         private readonly SignInInteraction _signInInteraction;
+        private readonly IResourceOwnerPasswordValidator _resourceOwnerPasswordValidator;
 
         public LoginController(
-            LoginService loginService, 
-            SignInInteraction signInInteraction)
+            LoginService loginService,
+            SignInInteraction signInInteraction
+            //,IResourceOwnerPasswordValidator resourceOwnerPasswordValidator
+            )
         {
             _loginService = loginService;
             _signInInteraction = signInInteraction;
+            //_resourceOwnerPasswordValidator = resourceOwnerPasswordValidator;
         }
 
         [HttpGet(Constants.RoutePaths.Login, Name = "Login")]
@@ -64,9 +69,31 @@ namespace IdentityServer.UI.Login
                 ModelState.AddModelError("", "Invalid username or password.");
             }
 
+            //  Uncomment this if you want to use Custom User service that load data from Db via EF
+            //var res = await _resourceOwnerPasswordValidator.ValidateAsync(model.Username, model.Password, null);
+            //if (res.IsError)
+            //{
+            //    ModelState.AddModelError("", "Invalid username or password.");
+            //}
+            //else
+            //{
+            //    var ci = new ClaimsIdentity(res.Principal.Claims, "password", JwtClaimTypes.Name, JwtClaimTypes.Role);
+            //    var cp = new ClaimsPrincipal(ci);
+
+            //    await HttpContext.Authentication.SignInAsync(Constants.PrimaryAuthenticationType, cp);
+
+            //    if (model.SignInId != null)
+            //    {
+            //        return new SignInResult(model.SignInId);
+            //    }
+
+            //    return Redirect("~/");
+            //}
+
             var vm = new LoginViewModel(model);
             return View(vm);
         }
+
 
         private async Task IssueCookie(
             InMemoryUser user, 
